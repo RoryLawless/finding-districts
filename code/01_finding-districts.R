@@ -52,7 +52,8 @@ df <- results_extract |>
 
 # Add addresses
 df <- left_join(df, address_tbl,
-                by = join_by("name"))
+  by = join_by("name")
+)
 
 # Write df to csv
 write_csv(df, "output/districts-output.csv")
