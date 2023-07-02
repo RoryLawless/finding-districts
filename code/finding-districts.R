@@ -19,6 +19,7 @@ api_key <- Sys.getenv("OPEN_STATES_API")
 
 # Load test addresses -----------------------------------------------------
 # data.frame should contain the columns name and address
+# These addresses were randomly selected using a now forgotten website
 address_tbl <- read_csv("data/addresses.csv")
 
 # Geocode addresses -------------------------------------------------------
@@ -48,3 +49,10 @@ results_extract <- result |>
 # Create final dataframe containing all queried data
 df <- results_extract |>
   bind_rows()
+
+# Add addresses
+df <- left_join(df, address_tbl,
+                by = join_by("name"))
+
+# Write df to csv
+write_csv(df, "output/districts-output.csv")
