@@ -3,7 +3,6 @@
 on:
   push:
     paths: ["**.[rR]", "**.[qrR]md", "**.[rR]markdown", "**.[rR]nw", "**.[rR]profile"]
-  workflow_dispatch
 
 name: Style
 
