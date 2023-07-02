@@ -3,6 +3,10 @@ library(tidyverse)
 library(httr)
 library(tidygeocoder)
 
+# > Source function from R script
+
+source("code/00_functions.R")
+
 # Define openstates API URL components -------------------------------------
 
 api_root <- "https://v3.openstates.org"
@@ -32,41 +36,15 @@ req_url <- paste0(
 ) |> set_names(address_tbl$name)
 
 # Loop through vector of URLs ====
-result2 <- map(req_url, jsonlite::fromJSON, flatten = TRUE)
+result <- req_url |>
+  map(\(x) jsonlite::fromJSON(x, flatten = TRUE))
 
 # Format results ----------------------------------------------------------
 
-extract_district <- function(x) {
-  df <- x[["results"]]
+# Extract district related variables from results
+results_extract <- result |>
+  imap(extract_district)
 
-  df <- df |>
-    select(
-      jurisdiction.name, current_role.title,
-      current_role.district, current_role.org_classification
-    ) |>
-    set_names(nm = c(
-      "name", "jurisdiction",
-      "role_title", "district",
-      "chamber_classification"
-    ))
-}
-
-test <- result2 |> map(extract_district)
-
-result <- result2 |> map_depth(1, ~ keep(., is.data.frame))
-
-result <- unlist(result, recursive = FALSE, use.names = TRUE)
-
-result <- result |> map(~ select(
-  ., `jurisdiction.name`,
-  `current_role.title`, `current_role.district`,
-  `current_role.org_classification`
-))
-
-df <- result |>
-  bind_rows(.id = "name") |>
-  set_names(nm = c(
-    "name", "jurisdiction",
-    "role_title", "district",
-    "chamber_classification"
-  ))
+# Create final dataframe containing all queried data
+df <- results_extract |>
+  bind_rows()
