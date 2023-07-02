@@ -9,6 +9,8 @@ api_root <- "https://v3.openstates.org"
 
 method <- "/people.geo"
 
+# NOTE: API key is set in .Renviron and obtained from
+# https://open.pluralpolicy.com/
 api_key <- Sys.getenv("OPEN_STATES_API")
 
 # Load test addresses -----------------------------------------------------
@@ -49,7 +51,6 @@ extract_district <- function(x) {
     ))
 }
 
-
 test <- result2 |> map(extract_district)
 
 result <- result2 |> map_depth(1, ~ keep(., is.data.frame))
@@ -61,7 +62,6 @@ result <- result |> map(~ select(
   `current_role.title`, `current_role.district`,
   `current_role.org_classification`
 ))
-
 
 df <- result |>
   bind_rows(.id = "name") |>
