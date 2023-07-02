@@ -1,8 +1,6 @@
-
 # Custom functions for finding-districts process --------------------------
 
 extract_district <- function(result, id) {
-
   require(rlang)
   require(dplyr)
 
@@ -16,5 +14,4 @@ extract_district <- function(result, id) {
       chamber_classification = "current_role.org_classification"
     ) |>
     mutate(name = id, .before = everything())
-
 }
