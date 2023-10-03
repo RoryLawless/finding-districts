@@ -1,3 +1,7 @@
+# Find district information for addresses ----------------------------------
+# This script uses the openstates API to find US- and State-level district 
+# information for specified addresses
+
 # Load libraries ----------------------------------------------------------
 library(tidyverse)
 library(httr)

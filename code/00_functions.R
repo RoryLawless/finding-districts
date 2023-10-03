@@ -1,4 +1,6 @@
-# Custom functions for finding-districts process --------------------------
+# Custom function for finding-districts process ---------------------------
+# This function is used to extract district information from the API
+# response.
 
 extract_district <- function(result, id) {
   require(rlang)
