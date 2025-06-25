@@ -1,2 +1,3 @@
-source("renv/activate.R")
 source("~/.Rprofile")
+source("rv/scripts/rvr.R")
+source("rv/scripts/activate.R")
